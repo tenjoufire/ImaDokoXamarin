@@ -7,11 +7,13 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android.Net.Wifi;
 
 using Microsoft.WindowsAzure.MobileServices;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
+
 
 namespace ImaDoko.Droid
 {
@@ -34,6 +36,7 @@ namespace ImaDoko.Droid
 
 			// Load the main application
 			LoadApplication (new App ());
+
 		}
 	}
 }

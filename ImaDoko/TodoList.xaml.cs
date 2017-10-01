@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Plugin.Connectivity;
+using System.Linq;
 
 namespace ImaDoko
 {
@@ -13,6 +15,8 @@ namespace ImaDoko
             InitializeComponent();
 
             manager = ImaDokoManager.DefaultManager;
+
+
 
             // OnPlatform<T> doesn't currently support the "Windows" target platform, so we have this check here.
             /*if (manager.IsOfflineEnabled && Device.OS == TargetPlatform.Windows)
@@ -70,7 +74,12 @@ namespace ImaDoko
                 // Not iOS - the swipe-to-delete is discoverable there
                 if (Device.OS == TargetPlatform.Android)
                 {
-                    await DisplayAlert(todo.Name, "Press-and-hold to complete task " + todo.Name, "Got it!");
+                    /*
+                     *  for debug
+                    var wifiInfo = DependencyService.Get<IWificonnection>();
+                    Console.WriteLine(wifiInfo.GetSSID());
+                    */
+                    await DisplayAlert(todo.Name, "Press-and-hold to complete task " + todo.Name, "Got it! ");
                 }
                 else
                 {
@@ -166,6 +175,13 @@ namespace ImaDoko
                     indicatorDelay.ContinueWith(t => SetIndicatorActivity(false), TaskScheduler.FromCurrentSynchronizationContext());
                 }
             }
+
+            //wifiのSSIDを取得するクラスのインターフェース
+            public interface IPlatformService
+            {
+                string GetSSID();
+            }
+
         }
     }
 }
