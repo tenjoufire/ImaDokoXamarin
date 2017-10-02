@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Plugin.Connectivity;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace ImaDoko
 {
     public partial class TodoList : ContentPage
     {
         ImaDokoManager manager;
+        //Dictionary<string, string> wifiPlace = new Dictionary<string, string>();
 
         public TodoList()
         {
@@ -16,6 +18,19 @@ namespace ImaDoko
 
             manager = ImaDokoManager.DefaultManager;
 
+            /*
+            wifiPlace = new Dictionary<string, string>()
+            {
+                {"sumilab-wlan-g", "1F卒研スペース付近" },
+                {"turtlebot", "エレ工か院生室" },
+                {"eduroam", "学内" },
+                {"free-wifi", "学内" },
+                {"fun-wifi", "学内" },
+                {String.Empty , "Wifi圏外もしくは学外"}
+            };
+            */
+
+            //wifiPlace.Add("sumilab-wlan-g", "1F卒研スペース付近");
 
 
             // OnPlatform<T> doesn't currently support the "Windows" target platform, so we have this check here.
@@ -56,7 +71,7 @@ namespace ImaDoko
 
         public async void OnAdd(object sender, EventArgs e)
         {
-            var todo = new ImaDoko { Name = newItemName.Text, Place = newPlace.Text};
+            var todo = new ImaDoko { Name = newItemName.Text, Place = GetCurrentPlaceFromSSID() };
             await AddItem(todo);
 
             newItemName.Text = string.Empty;
@@ -176,12 +191,32 @@ namespace ImaDoko
                 }
             }
 
-            //wifiのSSIDを取得するクラスのインターフェース
-            public interface IPlatformService
+        }
+
+        private string GetCurrentPlaceFromSSID()
+        {
+            var ssid = DependencyService.Get<IWificonnection>().GetSSID();
+            var wifiPlace = new Dictionary<string, string>()
             {
-                string GetSSID();
+                ["sumilab-wlan-g"] = "1F卒研スペース付近",
+                ["turtlebot"] = "エレ工か院生室",
+                ["eduroam"] = "学内",
+                ["fun-wifi"] = "学内",
+                ["free-wifi"] = "学内",
+                [String.Empty] = "Wifi圏外か学外",
+            };
+            if (wifiPlace.ContainsKey(ssid))
+            {
+                return wifiPlace[ssid];
             }
 
+            return "対象外のネットワーク";
+        }
+
+        //wifiのSSIDを取得するクラスのインターフェース
+        public interface IPlatformService
+        {
+            string GetSSID();
         }
     }
 }
