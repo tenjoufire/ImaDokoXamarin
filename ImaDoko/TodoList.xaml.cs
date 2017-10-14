@@ -19,7 +19,15 @@ namespace ImaDoko
             manager = ImaDokoManager.DefaultManager;
 
             //名前を入力する欄のデータバインディングのソースオブジェクトを生成
-            nameView = new NameViewModel() { MyName = string.Empty };
+            nameView = new NameViewModel();
+            try
+            {
+                nameView.MyName = (string)Application.Current.Properties["myName"];
+            }
+            catch
+            {
+                nameView.MyName = String.Empty;
+            }
 
             //データバインディングの紐づけ
             newItemName.BindingContext = nameView;
@@ -58,7 +66,7 @@ namespace ImaDoko
 
         public void SaveAccountName(object sender, EventArgs e)
         {
-            nameView.MyName = $"変わってるぞい{DateTime.Now.ToString("hh:mm:ss")}";
+            Application.Current.Properties["myName"] = newItemName.Text;
         }
 
         // Event handlers
