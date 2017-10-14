@@ -213,11 +213,7 @@ namespace ImaDoko
             return "対象外のネットワーク";
         }
 
-        //wifiのSSIDを取得するクラスのインターフェース
-        public interface IPlatformService
-        {
-            string GetSSID();
-        }
+        
     }
 }
 
