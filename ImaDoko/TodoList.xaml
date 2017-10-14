@@ -23,17 +23,12 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition />
                 </Grid.RowDefinitions>
-                <Entry x:Name="newItemName"
-                  Placeholder="Your name" />
-                <Entry x:Name="newPlace"
-                       Placeholder="Where are you?"
-                       Grid.Row="1"/>
+                <Entry x:Name="newItemName" Placeholder="Your name" Text="{Binding MyName, Mode=TwoWay}"/>
                 <StackLayout x:Name="buttonsPanel" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
-                    <Button Text="+"
+                    <Button Text="保存"
                   MinimumHeightRequest="30"
-                  Clicked="OnAdd" 
+                  Clicked="SaveAccountName" 
                             Grid.Column="1"/>
                 </StackLayout>
             </Grid>

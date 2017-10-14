@@ -10,41 +10,19 @@ namespace ImaDoko
     public partial class TodoList : ContentPage
     {
         ImaDokoManager manager;
-        //Dictionary<string, string> wifiPlace = new Dictionary<string, string>();
-
+        NameViewModel nameView;
+        
         public TodoList()
         {
             InitializeComponent();
 
             manager = ImaDokoManager.DefaultManager;
 
-            /*
-            wifiPlace = new Dictionary<string, string>()
-            {
-                {"sumilab-wlan-g", "1F卒研スペース付近" },
-                {"turtlebot", "エレ工か院生室" },
-                {"eduroam", "学内" },
-                {"free-wifi", "学内" },
-                {"fun-wifi", "学内" },
-                {String.Empty , "Wifi圏外もしくは学外"}
-            };
-            */
+            //名前を入力する欄のデータバインディングのソースオブジェクトを生成
+            nameView = new NameViewModel() { MyName = string.Empty };
 
-            //wifiPlace.Add("sumilab-wlan-g", "1F卒研スペース付近");
-
-
-            // OnPlatform<T> doesn't currently support the "Windows" target platform, so we have this check here.
-            /*if (manager.IsOfflineEnabled && Device.OS == TargetPlatform.Windows)
-            {
-                var syncButton = new Button
-                {
-                    Text = "Sync items",
-                    HeightRequest = 30
-                };
-                syncButton.Clicked += OnSyncItems;
-
-                buttonsPanel.Children.Add(syncButton);
-            }*/
+            //データバインディングの紐づけ
+            newItemName.BindingContext = nameView;
         }
 
         protected override async void OnAppearing()
@@ -76,8 +54,11 @@ namespace ImaDoko
 
             newItemName.Text = string.Empty;
             newItemName.Unfocus();
-            newPlace.Text = string.Empty;
-            newPlace.Unfocus();
+        }
+
+        public void SaveAccountName(object sender, EventArgs e)
+        {
+            nameView.MyName = $"変わってるぞい{DateTime.Now.ToString("hh:mm:ss")}";
         }
 
         // Event handlers
