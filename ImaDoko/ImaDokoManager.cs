@@ -66,5 +66,10 @@ namespace ImaDoko
                 await imaDokoTable.UpdateAsync(item);
             }
         }
+
+        public MobileServiceClient CurrentClient
+        {
+            get { return client; }
+        }
     }
 }

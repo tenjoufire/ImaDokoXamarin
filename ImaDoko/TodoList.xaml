@@ -28,7 +28,7 @@
                 <StackLayout x:Name="buttonsPanel" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
                     <Button Text="保存"
                   MinimumHeightRequest="30"
-                  Clicked="SaveAccountName" 
+                  Clicked="OnAdd" 
                             Grid.Column="1"/>
                 </StackLayout>
             </Grid>
